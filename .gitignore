@@ -1,0 +1,7 @@
+/vendor
+/node_modules
+/resources/dist/hot
+composer.lock
+package-lock.json
+.phpunit.result.cache
+.phpunit.cache
