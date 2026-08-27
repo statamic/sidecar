@@ -1,4 +1,6 @@
 <!-- statamic:hide -->
+<img src="sidecar.webp" width="220" alt="Sidecar">
+
 # Sidecar
 
 > Edit your static site generator's markdown from the Statamic Control Panel.
