@@ -13,7 +13,7 @@ return [
     | converts them into Statamic content.
     |
     | 'docs' => [
-    |     'driver' => 'laradocs',
+    |     'driver' => 'laradocs', // laradocs, jigsaw, vitepress, hyde
     |     'directory' => base_path('docs'),
     |     'title' => 'Documentation',
     |     'read_only' => false,

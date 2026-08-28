@@ -37,6 +37,7 @@ class SourcesController extends CpController
             'structured' => $source->driver()->supportsNesting() || $source->driver()->supportsOrdering(),
             'supportsNesting' => $source->driver()->supportsNesting(),
             'supportsOrdering' => $source->driver()->supportsOrdering(),
+            'indexFileName' => $source->indexFileName(),
             'treeIndexUrl' => $source->treeIndexUrl(),
             'treeSubmitUrl' => $source->treeSubmitUrl(),
             'createUrl' => $source->createUrl(),

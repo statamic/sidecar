@@ -98,7 +98,7 @@ class DerivedTree
             return count($parts) === 2 && $parts[1] === $index;
         });
 
-        $branches = $this->sort($direct)
+        $branches = $this->sort($source, $direct)
             ->map(function (Document $document) use ($source, $documents, $index) {
                 $children = $document->isIndex()
                     ? $this->children($source, $documents, Str::beforeLast($document->path(), '/'.$index))
@@ -171,10 +171,12 @@ class DerivedTree
     /**
      * @param  Collection<string, Document>  $documents
      */
-    protected function sort(Collection $documents): Collection
+    protected function sort(Source $source, Collection $documents): Collection
     {
+        $driver = $source->driver();
+
         return $documents->sortBy(fn (Document $document) => [
-            (int) ($document->get('order') ?? PHP_INT_MAX),
+            $driver->orderValue($document) ?? PHP_INT_MAX,
             strtolower($document->title()),
         ]);
     }

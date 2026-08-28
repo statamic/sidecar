@@ -51,6 +51,11 @@ abstract class Driver implements DriverContract
      */
     public function prepareBlueprint(BlueprintInstance $blueprint, ?Document $document = null, array $context = []): BlueprintInstance
     {
+        if (! $document) {
+            $blueprint->ensureField('parent', ['type' => 'hidden']);
+            $blueprint->ensureField('as_section', ['type' => 'hidden']);
+        }
+
         return $blueprint;
     }
 
@@ -77,6 +82,24 @@ abstract class Driver implements DriverContract
     public function supportsOrdering(): bool
     {
         return $this->supportsNesting();
+    }
+
+    /**
+     * Sibling sort key derived from the document. Null sorts last.
+     */
+    public function orderValue(Document $document): ?int
+    {
+        $order = $document->get('order');
+
+        return $order !== null ? (int) $order : null;
+    }
+
+    /**
+     * Persist a sibling position into the driver's on-disk format.
+     */
+    public function persistOrder(Document $document, int $position): void
+    {
+        $document->set('order', $position);
     }
 
     public function tree(Source $source): array

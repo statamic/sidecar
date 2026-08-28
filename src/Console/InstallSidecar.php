@@ -140,7 +140,7 @@ PHP;
     protected function defaultHandleFor(string $driver): string
     {
         return match ($driver) {
-            'laradocs', 'jigsaw', 'vitepress' => 'docs',
+            'laradocs', 'jigsaw', 'vitepress', 'hyde' => 'docs',
             default => $driver,
         };
     }
@@ -151,6 +151,7 @@ PHP;
             'laradocs' => $this->laradocsDirectoryExpression(),
             'jigsaw' => "base_path('source/docs')",
             'vitepress' => "base_path('docs')",
+            'hyde' => "base_path('hyde/_docs')",
             default => "base_path('{$driver}')",
         };
     }

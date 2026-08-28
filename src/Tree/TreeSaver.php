@@ -89,8 +89,8 @@ class TreeSaver
                 }
             }
 
-            if ($driver->supportsOrdering() && (int) $document->get('order') !== $position) {
-                $document->set('order', $position);
+            if ($driver->supportsOrdering() && $driver->orderValue($document) !== $position) {
+                $driver->persistOrder($document, $position);
                 $repository->save($document);
             }
 

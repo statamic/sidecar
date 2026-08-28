@@ -251,6 +251,32 @@ class CpRoutesTest extends TestCase
     }
 
     #[Test]
+    public function creating_a_child_keeps_parent_on_the_publish_form()
+    {
+        $response = $this
+            ->get(cp_route('sidecar.documents.create', 'docs').'?parent=guide')
+            ->assertOk();
+
+        $page = $response->viewData('page');
+        $handles = collect($page['props']['blueprint']['tabs'])
+            ->flatMap(fn ($tab) => $tab['sections'] ?? [])
+            ->flatMap(fn ($section) => $section['fields'] ?? [])
+            ->pluck('handle');
+
+        $this->assertEquals('guide', $page['props']['values']['parent']);
+        $this->assertContains('parent', $handles);
+        $this->assertContains('as_section', $handles);
+    }
+
+    #[Test]
+    public function the_show_page_exposes_the_index_filename()
+    {
+        $page = $this->get(cp_route('sidecar.source.show', 'docs'))->assertOk()->viewData('page');
+
+        $this->assertEquals('_index', $page['props']['indexFileName']);
+    }
+
+    #[Test]
     public function live_preview_can_tokenize_an_unsaved_document()
     {
         $response = $this

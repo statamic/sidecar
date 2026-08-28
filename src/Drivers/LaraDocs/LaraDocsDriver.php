@@ -96,12 +96,9 @@ class LaraDocsDriver extends Driver
 
     public function prepareBlueprint(Blueprint $blueprint, ?Document $document = null, array $context = []): Blueprint
     {
-        $asSection = (bool) ($context['as_section'] ?? false);
+        parent::prepareBlueprint($blueprint, $document, $context);
 
-        if (! $document) {
-            $blueprint->ensureField('parent', ['type' => 'hidden']);
-            $blueprint->ensureField('as_section', ['type' => 'hidden']);
-        }
+        $asSection = (bool) ($context['as_section'] ?? false);
 
         if ($group = $blueprint->field('group')) {
             $config = array_merge($group->config(), [

@@ -20,9 +20,11 @@ class ManagerTest extends TestCase
         $this->assertTrue(Sidecar::hasDriver('laradocs'));
         $this->assertTrue(Sidecar::hasDriver('jigsaw'));
         $this->assertTrue(Sidecar::hasDriver('vitepress'));
+        $this->assertTrue(Sidecar::hasDriver('hyde'));
 
         $this->assertEquals('laradocs', Sidecar::packages()->get('petebishwhip/laradocs'));
         $this->assertEquals('jigsaw', Sidecar::packages()->get('tightenco/jigsaw'));
+        $this->assertEquals('hyde', Sidecar::packages()->get('hyde/framework'));
     }
 
     #[Test]

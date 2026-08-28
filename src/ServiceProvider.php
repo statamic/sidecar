@@ -8,6 +8,7 @@ use Statamic\Facades\CP\Nav;
 use Statamic\Facades\Icon;
 use Statamic\Providers\AddonServiceProvider;
 use Statamic\Sidecar\Console\InstallSidecar;
+use Statamic\Sidecar\Drivers\Hyde\HydeDriver;
 use Statamic\Sidecar\Drivers\Jigsaw\JigsawDriver;
 use Statamic\Sidecar\Drivers\LaraDocs\LaraDocsDriver;
 use Statamic\Sidecar\Drivers\VitePress\VitePressDriver;
@@ -56,8 +57,13 @@ class ServiceProvider extends AddonServiceProvider
             return new VitePressDriver($config, $handle);
         });
 
+        Sidecar::extend('hyde', function ($app, array $config, string $handle) {
+            return new HydeDriver($config, $handle);
+        });
+
         Sidecar::pair('petebishwhip/laradocs', 'laradocs');
         Sidecar::pair('tightenco/jigsaw', 'jigsaw');
+        Sidecar::pair('hyde/framework', 'hyde');
     }
 
     protected function registerBlueprints(): void

@@ -6,7 +6,7 @@
 > Edit your static site generator's markdown from the Statamic Control Panel.
 <!-- /statamic:hide -->
 
-You've got a static site generator. LaraDocs, Jigsaw, VitePress, something in that family. Markdown files, front matter, maybe a `navigation.php` or `sidebar.json`. It works.
+You've got a static site generator. LaraDocs, Jigsaw, VitePress, HydePHP, something in that family. Markdown files, front matter, maybe a `navigation.php` or `sidebar.json`. It works.
 
 Then you want to edit those docs in the Control Panel — tree, publish forms, Live Preview, the whole Statamic experience — without turning them into Statamic entries first.
 
@@ -33,6 +33,7 @@ You'll find your sources under **Content → Sidecar**. Each source gets its own
 | [LaraDocs](https://github.com/petebishwhip/laradocs) | ✅ |
 | [Jigsaw](https://jigsaw.tighten.com) | ✅ |
 | [VitePress](https://vitepress.dev) | ✅ |
+| [HydePHP](https://hydephp.com) | ✅ |
 | Hugo | |
 | Astro | |
 | Docusaurus | |
@@ -74,7 +75,7 @@ Each source is a handle, a driver, and a directory:
 
 | Key | What it does |
 | --- | --- |
-| `driver` | `laradocs`, `jigsaw`, `vitepress`, or a handle you registered |
+| `driver` | `laradocs`, `jigsaw`, `vitepress`, `hyde`, or a handle you registered |
 | `directory` | Absolute path to the markdown |
 | `title` | CP nav label (defaults to the driver's title) |
 | `read_only` | Browse and preview only — no saving |
@@ -139,9 +140,30 @@ export default defineConfig({
 
 Live Preview points at `vitepress dev`. Saved markdown HMR-reloads; unsaved WIP is not rendered.
 
+### HydePHP
+
+Nesting is real folders in `_docs/`. Subdirectories become sidebar groups. A section is `guide/index.md` (Hyde's index, not `_index`). Sibling order lives in `navigation.priority` front matter — numeric filename prefixes (`01-routing.md`) work too. Drag the tree, Sidecar moves files and rewrites `priority`. It never writes an `order:` key.
+
+Hyde's default flattened output means `guide/routing.md` still publishes to `/docs/routing`.
+
+`install:sidecar` detects `hyde/framework`. Hyde is Laravel Zero, so it usually lives in a subdirectory of the Statamic app — point `directory` at that `_docs/` folder.
+
+```php
+'docs' => [
+    'driver' => 'hyde',
+    'directory' => base_path('hyde/_docs'),
+    'site_url' => 'http://localhost:8080',
+    'preview_url' => 'http://localhost:8080/docs{path}',
+    // 'url_prefix' => 'docs',
+    // 'flattened' => true,
+],
+```
+
+Turn on Hyde's `pretty_urls` or preview links will want `.html`. Live Preview points at `php hyde serve`. Saved-state only.
+
 ## Custom drivers
 
-Got an SSG that isn't LaraDocs, Jigsaw, or VitePress? Teach Sidecar how it works.
+Got an SSG that isn't LaraDocs, Jigsaw, VitePress, or HydePHP? Teach Sidecar how it works.
 
 ```php
 use Statamic\Sidecar\Facades\Sidecar;

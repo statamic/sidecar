@@ -141,6 +141,7 @@ export default {
         expectsRoot: Boolean,
         supportsNesting: Boolean,
         supportsOrdering: Boolean,
+        indexFileName: { type: String, default: '_index' },
         treeIndexUrl: String,
         treeSubmitUrl: String,
         createUrl: String,
@@ -211,16 +212,17 @@ export default {
 
         parentFolder(page) {
             let id = page.id ?? '';
+            const index = this.indexFileName;
 
             if (id.startsWith('_folder::')) {
                 return id.slice('_folder::'.length);
             }
 
-            if (id.endsWith('/_index')) {
-                return id.slice(0, -'/_index'.length);
+            if (id.endsWith('/' + index)) {
+                return id.slice(0, -('/' + index).length);
             }
 
-            if (id === '_index') {
+            if (id === index) {
                 return '';
             }
 
