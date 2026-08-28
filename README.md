@@ -6,13 +6,13 @@
 > Edit your static site generator's markdown from the Statamic Control Panel.
 <!-- /statamic:hide -->
 
-You've got a static site generator. LaraDocs, Jigsaw, something in that family. Markdown files, front matter, maybe a `navigation.php`. It works.
+You've got a static site generator. LaraDocs, Jigsaw, VitePress, something in that family. Markdown files, front matter, maybe a `navigation.php` or `sidebar.json`. It works.
 
 Then you want to edit those docs in the Control Panel — tree, publish forms, Live Preview, the whole Statamic experience — without turning them into Statamic entries first.
 
 That's Sidecar.
 
-It opens the SSG's own files, lets you edit them, and writes them back in that SSG's format. No collections. No Stache copies. No "import your markdown into Statamic and hope for the best." Front matter stays front matter. Folders stay folders. `navigation.php` stays `navigation.php`.
+It opens the SSG's own files, lets you edit them, and writes them back in that SSG's format. No collections. No Stache copies. No "import your markdown into Statamic and hope for the best." Front matter stays front matter. Folders stay folders. `navigation.php` stays `navigation.php`. `sidebar.json` stays `sidebar.json`.
 
 Sidecar rides alongside your SSG. It doesn't replace it.
 
@@ -26,7 +26,7 @@ The driver owns everything that would otherwise be Statamic's job: where files l
 
 You'll find your sources under **Content → Sidecar**. Each source gets its own nav item, its own blueprint (editable in the CP), and Live Preview against the SSG's own renderer.
 
-First-party drivers ship for [LaraDocs](https://github.com/petebishwhip/laradocs) and [Jigsaw](https://jigsaw.tighten.com). Want Hugo? Write a driver. More on that below.
+First-party drivers ship for [LaraDocs](https://github.com/petebishwhip/laradocs), [Jigsaw](https://jigsaw.tighten.com), and [VitePress](https://vitepress.dev). Want Hugo? Write a driver. More on that below.
 
 ## Installation
 
@@ -62,7 +62,7 @@ Each source is a handle, a driver, and a directory:
 
 | Key | What it does |
 | --- | --- |
-| `driver` | `laradocs`, `jigsaw`, or a handle you registered |
+| `driver` | `laradocs`, `jigsaw`, `vitepress`, or a handle you registered |
 | `directory` | Absolute path to the markdown |
 | `title` | CP nav label (defaults to the driver's title) |
 | `read_only` | Browse and preview only — no saving |
@@ -96,9 +96,40 @@ Docs stay flat on disk. The hierarchy lives in `navigation.php`. Saving the tree
 ],
 ```
 
+### VitePress
+
+Docs can live in folders (that's how VitePress routes), but the tree is owned by a Sidecar-managed `sidebar.json`. Saving the tree rewrites that file and never relocates markdown.
+
+Import it from your VitePress config so the theme and Sidecar share one source of truth:
+
+```ts
+// .vitepress/config.ts
+import { defineConfig } from 'vitepress'
+import sidebar from './sidebar.json'
+
+export default defineConfig({
+  themeConfig: { sidebar }
+})
+```
+
+```php
+'docs' => [
+    'driver' => 'vitepress',
+    'directory' => base_path('docs'),
+    'sidebar' => base_path('docs/.vitepress/sidebar.json'),
+    'site_url' => 'http://localhost:5173',
+    'preview_url' => 'http://localhost:5173{path}',
+    // 'sidebar_key' => '/guide/', // multi-sidebar object: which key this source manages
+    // 'base' => '/',
+    // 'clean_urls' => true,
+],
+```
+
+Live Preview points at `vitepress dev`. Saved markdown HMR-reloads; unsaved WIP is not rendered.
+
 ## Custom drivers
 
-Got an SSG that isn't LaraDocs or Jigsaw? Teach Sidecar how it works.
+Got an SSG that isn't LaraDocs, Jigsaw, or VitePress? Teach Sidecar how it works.
 
 ```php
 use Statamic\Sidecar\Facades\Sidecar;

@@ -10,6 +10,7 @@ use Statamic\Providers\AddonServiceProvider;
 use Statamic\Sidecar\Console\InstallSidecar;
 use Statamic\Sidecar\Drivers\Jigsaw\JigsawDriver;
 use Statamic\Sidecar\Drivers\LaraDocs\LaraDocsDriver;
+use Statamic\Sidecar\Drivers\VitePress\VitePressDriver;
 use Statamic\Sidecar\Facades\Sidecar;
 
 class ServiceProvider extends AddonServiceProvider
@@ -49,6 +50,10 @@ class ServiceProvider extends AddonServiceProvider
 
         Sidecar::extend('jigsaw', function ($app, array $config, string $handle) {
             return new JigsawDriver($config, $handle);
+        });
+
+        Sidecar::extend('vitepress', function ($app, array $config, string $handle) {
+            return new VitePressDriver($config, $handle);
         });
 
         Sidecar::pair('petebishwhip/laradocs', 'laradocs');
