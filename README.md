@@ -26,7 +26,19 @@ The driver owns everything that would otherwise be Statamic's job: where files l
 
 You'll find your sources under **Content → Sidecar**. Each source gets its own nav item, its own blueprint (editable in the CP), and Live Preview against the SSG's own renderer.
 
-First-party drivers ship for [LaraDocs](https://github.com/petebishwhip/laradocs), [Jigsaw](https://jigsaw.tighten.com), and [VitePress](https://vitepress.dev). Want Hugo? Write a driver. More on that below.
+## Supported Drivers
+
+| Driver | First-party |
+| --- | :---: |
+| [LaraDocs](https://github.com/petebishwhip/laradocs) | ✅ |
+| [Jigsaw](https://jigsaw.tighten.com) | ✅ |
+| [VitePress](https://vitepress.dev) | ✅ |
+| Hugo | |
+| Astro | |
+| Docusaurus | |
+| What else should we support? | |
+
+Want one of the blanks? Write a driver. More on that below.
 
 ## Installation
 
