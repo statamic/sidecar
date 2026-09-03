@@ -1,4 +1,4 @@
-name: Bug report
+name: Bug Report
 description: Fill out a bug report to help us improve Sidecar.
 labels: [bug]
 body:
