@@ -1,0 +1,8 @@
+{
+  "resources/js/sidecar.js": {
+    "file": "assets/sidecar-DpwbC6xb.js",
+    "name": "sidecar",
+    "src": "resources/js/sidecar.js",
+    "isEntry": true
+  }
+}
